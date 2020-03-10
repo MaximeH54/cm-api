@@ -1,5 +1,5 @@
 <?php
-
+// src/Security/TokenAuthenticator.php
 namespace App\Security;
 
 use App\Entity\User;
@@ -64,7 +64,7 @@ class GoogleAuthenticator extends AbstractGuardAuthenticator
 				// On essaie de récupérer en base de données l'utilisateur avec son ID Google
 				/** @var $user User */
 				$user = $this->em->getRepository(User::class)->findOneBy([
-					'google_id' => $payload['sub']
+					'google' => $payload['sub']
 				]);
 
 				// Si on a pas récupéré l'utilisateur en base de données
@@ -77,14 +77,14 @@ class GoogleAuthenticator extends AbstractGuardAuthenticator
 					]);
 
 					// Si le mail existe on modifie en base de donnée l'utilisateur pour lui attribuer son ID google
-					if ($user) {
-							$user->setGoogleId($payload['sub']);
-					} else { // Sinon on crée un nouvel utilisateur en base de données
+					if (!$user) {
 							$user = new User;
 							$user->setEmail($payload['email']);
-							$user->setGoogleId($payload['sub']);
-
+							$user->setFirstName($payload['given_name']);
+							$user->setLastName($payload['family_name']);
 					}
+
+					$user->setGoogle($payload['sub']);
 
 					// On enregistre le tout en base
 					$this->em->persist($user);
@@ -106,22 +106,19 @@ class GoogleAuthenticator extends AbstractGuardAuthenticator
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
-				// on success, let the request continue
-				return null;
+				// En cas d'erreur on renvoi une exception qui va afficher un message "required auth"
+				throw new AuthenticationException();
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-				$data = [
-						'message' => strtr($exception->getMessageKey(), $exception->getMessageData())
-
-						// or to translate this message
-						// $this->translator->trans($exception->getMessageKey(), $exception->getMessageData())
-				];
-
-				return new JsonResponse($data, Response::HTTP_FORBIDDEN);
+				// on success, let the request continue
+				return null;
     }
 
+		/**
+		 * Called when authentication is needed, but it's not sent
+		 */
     public function start(Request $request, AuthenticationException $authException = null)
     {
 				$data = [

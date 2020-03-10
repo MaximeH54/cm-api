@@ -36,14 +36,9 @@ class User implements UserInterface
     private $password;
 
 		/**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $phone;
-
-		/**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Adress", inversedBy="users")
-     */
-    private $adress;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -57,6 +52,7 @@ class User implements UserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Company", inversedBy="users")
+		 * @ORM\JoinColumn(nullable=true)
      */
     private $company;
 
@@ -66,7 +62,7 @@ class User implements UserInterface
     private $lastName;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $firstName;
 
@@ -77,13 +73,20 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Car", mappedBy="user")
+		 * @ORM\JoinColumn(nullable=true)
      */
     private $cars;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Reports", mappedBy="user")
+		 * @ORM\JoinColumn(nullable=true)
      */
     private $reports;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Adress", cascade={"persist", "remove"})
+     */
+    private $adress;
 
 		public function __construct()
     {
@@ -160,18 +163,6 @@ class User implements UserInterface
     public function setPhone(string $phone): self
     {
         $this->phone = $phone;
-
-        return $this;
-    }
-
-		public function getAdress(): ?Adress
-    {
-        return $this->adress;
-    }
-
-    public function setAdress(?Adress $adress): self
-    {
-        $this->adress = $adress;
 
         return $this;
     }
@@ -325,5 +316,17 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getAdress(): ?Adress
+    {
+        return $this->adress;
+    }
+
+    public function setAdress(?Adress $adress): self
+    {
+        $this->adress = $adress;
+
+        return $this;
     }
 }
