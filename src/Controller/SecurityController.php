@@ -20,4 +20,16 @@ class SecurityController extends AbstractController
 						'lastName' => $user->getLastName(),
 				]);
     }
+		/**
+     * @Route("/login/facebook", name="facebook_login")
+     */
+    public function index()
+    {
+				$user = $this->getUser();
+
+        return $this->json([
+						'firstName' => $user->getFirstName(),
+						'lastName' => $user->getLastName(),
+				]);
+    }
 }
