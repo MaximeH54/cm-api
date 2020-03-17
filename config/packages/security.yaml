@@ -20,6 +20,7 @@ security:
                 authenticators:
                     - App\Security\GoogleAuthenticator
                     - App\Security\FacebookAuthenticator
+                entry_point: App\Security\GoogleAuthenticator
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 

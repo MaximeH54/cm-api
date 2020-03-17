@@ -139,7 +139,7 @@
         "version": "2.2.3"
     },
     "php": {
-        "version": "7.2"
+        "version": "7.3"
     },
     "phpseclib/phpseclib": {
         "version": "2.0.25"
@@ -240,6 +240,12 @@
             "src/Kernel.php"
         ]
     },
+    "symfony/http-client": {
+        "version": "v5.0.5"
+    },
+    "symfony/http-client-contracts": {
+        "version": "v2.0.1"
+    },
     "symfony/http-foundation": {
         "version": "v5.0.4"
     },
@@ -288,6 +294,9 @@
     },
     "symfony/polyfill-php73": {
         "version": "v1.13.1"
+    },
+    "symfony/process": {
+        "version": "v5.0.5"
     },
     "symfony/profiler-pack": {
         "version": "v1.0.4"
@@ -391,6 +400,15 @@
             "config/packages/test/web_profiler.yaml",
             "config/routes/dev/web_profiler.yaml"
         ]
+    },
+    "symfony/web-server-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "dae9b39fd6717970be7601101ce5aa960bf53d9a"
+        }
     },
     "symfony/yaml": {
         "version": "v5.0.4"
