@@ -1,135 +1,178 @@
 <?php
-// src/Security/TokenAuthenticator.php
+
 namespace App\Security;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Core\User\UserInterface;
+use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
+use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
-class FacebookAuthenticator extends AbstractGuardAuthenticator
+
+
+
+
+class FacebookAuthenticator extends SocialAuthenticator
 {
-		private $em;
+    /**
+     * @var ClientRegistry
+     */
+    private $clientRegistry;
 
-		public function __construct(EntityManagerInterface $em)
-		{
-				$this->em = $em;
-		}
-		/**
-		 * A chaque fois qu'on appelle la route 'facebook_login' avec la méthode POST
-		 * on essai de s'authentifie avec Facebook.
-		 * Si renvoie faux alors le reste du code de ce fichier ne sera pas pris en compte
-		 */
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    /**
+     * @var UserInterface
+     */
+    private $userManager;
+
+    /**
+     * FacebookAuthenticator constructor.
+     * @param ClientRegistry $clientRegistry
+     * @param EntityManagerInterface $em
+     * @param UserInterface $userManager
+     */
+    public function __construct(ClientRegistry $clientRegistry, EntityManagerInterface $em)
+    {
+        $this->clientRegistry = $clientRegistry;
+        $this->em = $em;
+    }
+
+    /**
+     * @param Request $request
+     * @return bool
+     */
     public function supports(Request $request)
     {
-				return 'facebook_login' === $request->attributes->get('_route')
-						&& $request->isMethod('POST');
+
+        // continue ONLY if the current ROUTE matches the check ROUTE
+        return $request->attributes->get('_route') === 'facebook_login';
     }
 
-		/**
-		 * Récupération du token Facebook dans les paramètres du POST
-		 */
+    /**
+     * @param Request $request
+     * @return \League\OAuth2\Client\Token\AccessToken|mixed
+     */
     public function getCredentials(Request $request)
     {
-				return [
-						'id_token' => $request->request->get('id_token'),
-				];
+        // this method is only called if supports() returns true
+
+        $data = json_decode($request->getContent(), true);
+				//isset = empty
+        if (!isset($data['access_token']) || !$data['access_token']) {
+            throw new NotAcceptableHttpException("The param id_token is required");
+        }
+
+        return [
+            'access_token' => $data['access_token'],
+        ];
     }
-		/**
-		 * @param $credentials Paramétre récupéré depuis self::getCredentials()
-		 */
+
+    /**
+     * @param mixed $credentials
+     * @param UserProviderInterface $userProvider
+     * @return User|null|object|\Symfony\Component\Security\Core\User\UserInterface
+     */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-				$idToken = $credentials['id_token'];
+				//HttpClient = permet de faire des requêtes HTTP
+        $client = HttpClient::create();
 
-				// Si il n'y a pas le param id_token dans le POST alors on quitte la méthode
-				if (null === $idToken) {
-						return;
-				}
+        $response = $client->request('GET', 'https://graph.facebook.com/v5.0/me?access_token=' . $credentials['access_token'] . '&fields=id,first_name,last_name,email,picture');
 
-				$client = new \Google_Client([
-						'client_id' => $_ENV['APP_GOOGLE_ID']
-				]);
+        $statusCode = $response->getStatusCode();
 
-				// Appel à l'API Facebook pour vérifier si le token est valide
-				/** @var $payload Informations de l'utilisateur récupérer dans l'API Facebook */
-				$payload = $client->verifyIdToken($idToken);
+        if (400 === $statusCode) {
+            throw new UnauthorizedHttpException('Bearer', "Invalid access token");
+        } else if (200 !== $statusCode) {
+            throw new \Exception("An error has occurred");
+        }
 
-				// On essaie de récupérer en base de données l'utilisateur avec son ID Facebook
-				/** @var $user User */
-				$user = $this->em->getRepository(User::class)->findOneBy([
-					'google' => $payload['sub']
-				]);
+        $fbUser = $response->toArray();
 
-				// Si on a pas récupéré l'utilisateur en base de données
-				if (!$user) {
+        $facebookId = $fbUser['id'];
+        $email = $fbUser['email'];
+        $firstName = $fbUser['first_name'];
+        $lastName = $fbUser['last_name'];
+        $picture = $fbUser['picture']['data']['url'];
 
-					$user = $this->em->getRepository(User::class)->findOneBy([
-						'email' => $payload['email']
-					]);
+        // 1) have they logged in with Facebook before? Easy!
+        $existingUser = $this->em->getRepository(User::class)
+            ->findOneBy(['facebook' => $facebookId]);
 
-					// Si le mail existe on modifie en base de donnée l'utilisateur pour lui attribuer son ID google
-					if (!$user) {
-							$user = new User;
-							$user->setEmail($payload['email']);
-							$user->setFirstName($payload['given_name']);
-							$user->setLastName($payload['family_name']);
-					}
+        if ($existingUser) {
+            $user = $existingUser;
+        } else {
+            // 2) do we have a matching user by email?
+            $user = $this->em->getRepository(User::class)
+                ->findOneBy(['email' => $email]);
 
-					$user->setFacebook($payload['sub']);
+            if (!$user) {
+                /** @var User $user */
+                $user = new User;
+                $user->setFacebook($facebookId);
+                $user->setEmail($email);
+                $user->setFirstName($firstName);
+                $user->setLastName($lastName);
+                $user->setAvatar($picture);
+            }
 
-					// On enregistre le tout en base
-					$this->em->persist($user);
-					$this->em->flush();
-				}
+            $user->setFacebook($facebookId);
+            $this->em->persist($user);
+            $this->em->flush();
+        }
 
-				// if a User object, checkCredentials() is called
-				return $user;
-		}
 
-    public function checkCredentials($credentials, UserInterface $user)
-    {
-				// check credentials - e.g. make sure the password is valid
-				// no credential check is needed in this case
-
-				// return true to cause authentication success
-				return true;
-		}
-
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
-    {
-				// En cas d'erreur on renvoi une exception qui va afficher un message "required auth"
-				throw new AuthenticationException();
+        return $user;
     }
 
+    /**
+     * @param Request $request
+     * @param TokenInterface $token
+     * @param string $providerKey
+     * @return null|Response
+     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-				// on success, let the request continue
-				return null;
+        // on success, let the request continue
+        return null;
     }
 
-		/**
-		 * Called when authentication is needed, but it's not sent
-		 */
+    /**
+     * @param Request $request
+     * @param AuthenticationException $exception
+     * @return null|Response
+     */
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+    {
+        $message = strtr($exception->getMessageKey(), $exception->getMessageData());
+
+        return new Response($message, Response::HTTP_FORBIDDEN);
+    }
+
+    /**
+     * Called when authentication is needed, but it's not sent.
+     * This redirects to the 'login'.
+     *
+     * @param Request $request
+     * @param AuthenticationException|null $authException
+     *
+     * @return RedirectResponse
+     */
     public function start(Request $request, AuthenticationException $authException = null)
     {
-				$data = [
-						// you might translate this message
-						'message' => 'Authentication Required'
-				];
-
-				return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
-		}
-
-		public function supportsRememberMe()
-		{
-				return false;
-		}
+        return null;
+    }
 }
-?>
