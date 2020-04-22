@@ -10,6 +10,15 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 class SecurityController extends AbstractController
 {
     /**
+     * @Route("/", name="login")
+     */
+    public function login()
+    {
+        return $this->render('security/login.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
+    /**
      * @Route("/login/google", name="google_login")
      */
     public function indexGoogle()
