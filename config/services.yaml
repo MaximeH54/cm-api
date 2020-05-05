@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     admin_email: 'admin_cmapp@gmail.com'
+    upload_directory: '%kernel.project_dir%/public/uploads'
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -22,6 +23,10 @@ services:
     App\Services\MailLogger:
         arguments:
             $adminEmail: 'admin_cmapp@gmail.com'
+
+    App\Service\FileUploader:
+        arguments:
+            $targetDirectory: '%brochures_directory%'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class

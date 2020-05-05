@@ -1,0 +1,157 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Se connecter{% endblock %}
+
+{% block body %}
+{#{% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}#}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Connexion</h5>
+                    <form class="form-signin">
+                        <div class="form-label-group"> <input type="email" id="inputEmail" class="form-control" placeholder="E-mail" required autofocus> <label for="inputEmail">E-mail</label> </div>
+                        <div class="form-label-group"> <input type="password" id="inputPassword" class="form-control" placeholder="Mot de passe" required> <label for="inputPassword">Mot de passe</label> </div>
+                        <div class="custom-control custom-checkbox mb-3"> <input type="checkbox" class="custom-control-input" id="customCheck1"> <label class="custom-control-label" for="customCheck1">Se souvenir du mot de passe ?</label> </div>
+                         <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">S'inscrire</button>
+                        <hr class="my-4">
+                          <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i class="fab fa-google mr-2"></i> S'inscrire avec Google</button>
+                            <div class="login-ou">
+                              <hr class="hr-ou">
+                              <span class="span-ou">ou</span>
+                            </div>
+                            <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i class="fab fa-facebook-f mr-2"></i> S'inscrire avec Facebook</button>
+                          </div>
+                      </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <style>
+    :root {
+    --input-padding-x: 1.5rem;
+    --input-padding-y: .75rem
+}
+
+body {
+  background: -moz-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%),-moz-linear-gradient(top,  rgba(57,173,219,.25) 0%, rgba(42,60,87,.4) 100%), -moz-linear-gradient(-45deg,  #670d10 0%, #092756 100%);
+background: -webkit-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), -webkit-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -webkit-linear-gradient(-45deg,  #670d10 0%,#092756 100%);
+background: -o-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), -o-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -o-linear-gradient(-45deg,  #670d10 0%,#092756 100%);
+background: -ms-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), -ms-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -ms-linear-gradient(-45deg,  #670d10 0%,#092756 100%);
+background: -webkit-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), linear-gradient(to bottom,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), linear-gradient(135deg,  #670d10 0%,#092756 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3E1D6D', endColorstr='#092756',GradientType=1 );
+}
+
+.card-signin {
+    border: 0;
+    border-radius: 0rem;
+    box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1)
+}
+
+.card-signin .card-title {
+  font: 0.85rem 'Lato', sans-serif;
+	text-transform: uppercase;
+	letter-spacing: 0.28rem;
+	color: #222;
+    margin-bottom: 1.7rem;
+    font-weight: 300;
+    font-size: 1.5rem
+}
+
+.card-signin .card-body {
+    padding: 2rem
+}
+
+.login-ou {
+position: relative;
+color: #aaa;
+margin-top: 10px;
+margin-bottom: 10px;
+padding-top: 10px;
+padding-bottom: 10px;
+}
+ .span-ou {
+ display: block;
+ position: absolute;
+ left: 50%;
+ top: -2px;
+ margin-left: -25px;
+ background-color: #fff;
+ width: 50px;
+ text-align: center;
+ }
+ .hr-oo {
+ height: 1px;
+ margin-top: 0px !important;
+ margin-bottom: 0px !important;
+ }
+
+.form-signin {
+    width: 100%
+}
+
+.form-signin .btn {
+    font-size: 80%;
+    border-radius: 0.5rem;
+    letter-spacing: .1rem;
+    font-weight: bold;
+    padding: 1rem;
+    transition: all 0.2s
+}
+
+.form-label-group {
+    position: relative;
+    margin-bottom: 1rem
+}
+
+.form-label-group input {
+    height: auto
+}
+
+.form-label-group>input,
+.form-label-group>label {
+    padding: var(--input-padding-y) var(--input-padding-x)
+}
+
+.form-label-group>label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    margin-bottom: 0;
+    line-height: 1.5;
+    color: #495057;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    transition: all .1s ease-in-out
+}
+
+.form-control:focus {
+    box-shadow: 10px 0px 0px 0px #ffffff !important
+}
+
+.btn-google {
+    color: white;
+    background-color: #ea4335
+}
+
+.btn-facebook {
+    color: white;
+    background-color: #3b5998
+}
+</style>
+{% block javascripts %}
+  <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
+  <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+  <script src="https://use.fontawesome.com/releases/v5.7.2/css/all.css"></script>
+  {{ encore_entry_script_tags('app') }}
+{% endblock %}
+
+{% endblock %}

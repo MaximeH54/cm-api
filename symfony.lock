@@ -235,6 +235,9 @@
             ".env"
         ]
     },
+    "symfony/form": {
+        "version": "v5.0.8"
+    },
     "symfony/framework-bundle": {
         "version": "4.4",
         "recipe": {
@@ -270,6 +273,9 @@
     "symfony/inflector": {
         "version": "v5.0.4"
     },
+    "symfony/intl": {
+        "version": "v5.0.8"
+    },
     "symfony/maker-bundle": {
         "version": "1.0",
         "recipe": {
@@ -281,6 +287,9 @@
     },
     "symfony/mime": {
         "version": "v5.0.4"
+    },
+    "symfony/options-resolver": {
+        "version": "v5.0.8"
     },
     "symfony/orm-pack": {
         "version": "v1.0.7"
@@ -301,8 +310,17 @@
             "tests/bootstrap.php"
         ]
     },
+    "symfony/polyfill-intl-grapheme": {
+        "version": "v1.15.0"
+    },
+    "symfony/polyfill-intl-icu": {
+        "version": "v1.15.0"
+    },
     "symfony/polyfill-intl-idn": {
         "version": "v1.13.1"
+    },
+    "symfony/polyfill-intl-normalizer": {
+        "version": "v1.15.0"
     },
     "symfony/polyfill-mbstring": {
         "version": "v1.13.1"
@@ -362,6 +380,9 @@
     },
     "symfony/stopwatch": {
         "version": "v5.0.4"
+    },
+    "symfony/string": {
+        "version": "v5.0.8"
     },
     "symfony/translation-contracts": {
         "version": "v2.0.1"
