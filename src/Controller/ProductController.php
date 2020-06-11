@@ -67,7 +67,13 @@ class ProductController extends AbstractController
      */
     public function list()
     {
+			$products = $this->getDoctrine()
+				->getRepository(Product::class)
+				->findAll();
       // recup les fichiers uploaded dans la BDD
      //afficher vues Twig
+		 return $this->render('product/list.html.twig', [
+			 'products' => $products,
+		 ]);
     }
 }

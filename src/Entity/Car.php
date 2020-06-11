@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -44,17 +46,23 @@ class Car
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $logo;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $numberplate;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="cars")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Report", mappedBy="car")
+     */
+    private $reports;
+
+    public function __construct()
+    {
+        $this->reports = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -121,18 +129,6 @@ class Car
         return $this;
     }
 
-    public function getLogo(): ?string
-    {
-        return $this->logo;
-    }
-
-    public function setLogo(?string $logo): self
-    {
-        $this->logo = $logo;
-
-        return $this;
-    }
-
     public function getNumberplate(): ?string
     {
         return $this->numberplate;
@@ -153,6 +149,37 @@ class Car
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Report[]
+     */
+    public function getReports(): Collection
+    {
+        return $this->reports;
+    }
+
+    public function addReport(Report $report): self
+    {
+        if (!$this->reports->contains($report)) {
+            $this->reports[] = $report;
+            $report->setCar($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReport(Report $report): self
+    {
+        if ($this->reports->contains($report)) {
+            $this->reports->removeElement($report);
+            // set the owning side to null (unless already changed)
+            if ($report->getCar() === $this) {
+                $report->setCar(null);
+            }
+        }
 
         return $this;
     }

@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ReportsRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ReportRepository")
  */
-class Reports
+class Report
 {
     /**
      * @ORM\Id()
@@ -27,29 +27,45 @@ class Reports
     private $date;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $distance;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $comments;
+    private $comment;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $startTime;
+    private $start_time;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $endTime;
+    private $end_time;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\City")
+     */
+    private $departure_city;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\City")
+     */
+    private $arrival_city;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="reports")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Car", inversedBy="reports")
+     */
+    private $car;
 
     public function getId(): ?int
     {
@@ -80,50 +96,74 @@ class Reports
         return $this;
     }
 
-    public function getDistance(): ?string
+    public function getDistance(): ?integer
     {
         return $this->distance;
     }
 
-    public function setDistance(?string $distance): self
+    public function setDistance(?integer $distance): self
     {
         $this->distance = $distance;
 
         return $this;
     }
 
-    public function getComments(): ?string
+    public function getComment(): ?string
     {
-        return $this->comments;
+        return $this->comment;
     }
 
-    public function setComments(?string $comments): self
+    public function setComment(?string $comment): self
     {
-        $this->comments = $comments;
+        $this->comment = $comment;
 
         return $this;
     }
 
     public function getStartTime(): ?\DateTimeInterface
     {
-        return $this->startTime;
+        return $this->start_time;
     }
 
-    public function setStartTime(\DateTimeInterface $startTime): self
+    public function setStartTime(\DateTimeInterface $start_time): self
     {
-        $this->startTime = $startTime;
+        $this->start_time = $start_time;
 
         return $this;
     }
 
     public function getEndTime(): ?\DateTimeInterface
     {
-        return $this->endTime;
+        return $this->end_time;
     }
 
-    public function setEndTime(\DateTimeInterface $endTime): self
+    public function setEndTime(\DateTimeInterface $end_time): self
     {
-        $this->endTime = $endTime;
+        $this->end_time = $end_time;
+
+        return $this;
+    }
+
+    public function getDepartureCity(): ?City
+    {
+        return $this->departure_city;
+    }
+
+    public function setDepartureCity(?City $departure_city): self
+    {
+        $this->departure_city = $departure_city;
+
+        return $this;
+    }
+
+    public function getArrivalCity(): ?City
+    {
+        return $this->arrival_city;
+    }
+
+    public function setArrivalCity(?City $arrival_city): self
+    {
+        $this->arrival_city = $arrival_city;
 
         return $this;
     }
@@ -136,6 +176,18 @@ class Reports
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCar(): ?Car
+    {
+        return $this->car;
+    }
+
+    public function setCar(?Car $car): self
+    {
+        $this->car = $car;
 
         return $this;
     }

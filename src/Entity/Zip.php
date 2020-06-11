@@ -24,12 +24,7 @@ class Zip
     private $postalCode;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="zips")
-     */
-    private $country;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\City", mappedBy="zip")
+     * @ORM\OneToMany(targetEntity="App\Entity\City", mappedBy="zip", orphanRemoval=true)
      */
     private $cities;
 
@@ -51,18 +46,6 @@ class Zip
     public function setPostalCode(string $postalCode): self
     {
         $this->postalCode = $postalCode;
-
-        return $this;
-    }
-
-    public function getCountry(): ?Country
-    {
-        return $this->country;
-    }
-
-    public function setCountry(?Country $country): self
-    {
-        $this->country = $country;
 
         return $this;
     }

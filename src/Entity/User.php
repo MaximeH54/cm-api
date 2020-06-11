@@ -50,21 +50,15 @@ class User implements UserInterface
      */
     private $facebook;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Company", inversedBy="users")
-		 * @ORM\JoinColumn(nullable=true)
-     */
-    private $company;
-
 		/**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $lastName;
+    private $last_name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $firstName;
+    private $first_name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -72,26 +66,30 @@ class User implements UserInterface
     private $avatar;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Car", mappedBy="user")
-		 * @ORM\JoinColumn(nullable=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="user", orphanRemoval=true)
      */
-    private $cars;
+    private $products;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Reports", mappedBy="user")
-		 * @ORM\JoinColumn(nullable=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Report", mappedBy="user", orphanRemoval=true)
      */
     private $reports;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Adress", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\City", inversedBy="users")
      */
-    private $adress;
+    private $city;
 
-		public function __construct()
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Car", mappedBy="user", orphanRemoval=true)
+     */
+    private $cars;
+
+    public function __construct()
     {
-        $this->cars = new ArrayCollection();
+        $this->products = new ArrayCollection();
         $this->reports = new ArrayCollection();
+        $this->cars = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -191,38 +189,26 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getCompany(): ?Company
-    {
-        return $this->company;
-    }
-
-    public function setCompany(?Company $company): self
-    {
-        $this->company = $company;
-
-        return $this;
-    }
-
 		public function getLastName(): ?string
     {
-        return $this->lastName;
+        return $this->last_name;
     }
 
-    public function setLastName(?string $lastName): self
+    public function setLastName(?string $last_name): self
     {
-        $this->lastName = $lastName;
+        $this->last_name = $last_name;
 
         return $this;
     }
 
     public function getFirstName(): ?string
     {
-        return $this->firstName;
+        return $this->first_name;
     }
 
-    public function setFirstName(string $firstName): self
+    public function setFirstName(string $first_name): self
     {
-        $this->firstName = $firstName;
+        $this->first_name = $first_name;
 
         return $this;
     }
@@ -235,6 +221,97 @@ class User implements UserInterface
     public function setAvatar(?string $avatar): self
     {
         $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getSalt()
+    {
+        // not needed when using the "bcrypt" algorithm in security.yaml
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|Product[]
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->contains($product)) {
+            $this->products->removeElement($product);
+            // set the owning side to null (unless already changed)
+            if ($product->getUser() === $this) {
+                $product->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Report[]
+     */
+    public function getReports(): Collection
+    {
+        return $this->reports;
+    }
+
+    public function addReport(Report $report): self
+    {
+        if (!$this->reports->contains($report)) {
+            $this->reports[] = $report;
+            $report->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReport(Report $report): self
+    {
+        if ($this->reports->contains($report)) {
+            $this->reports->removeElement($report);
+            // set the owning side to null (unless already changed)
+            if ($report->getUser() === $this) {
+                $report->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }
@@ -266,66 +343,6 @@ class User implements UserInterface
                 $car->setUser(null);
             }
         }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Reports[]
-     */
-    public function getReports(): Collection
-    {
-        return $this->reports;
-    }
-
-    public function addReport(Reports $report): self
-    {
-        if (!$this->reports->contains($report)) {
-            $this->reports[] = $report;
-            $report->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReport(Reports $report): self
-    {
-        if ($this->reports->contains($report)) {
-            $this->reports->removeElement($report);
-            // set the owning side to null (unless already changed)
-            if ($report->getUser() === $this) {
-                $report->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function getSalt()
-    {
-        // not needed when using the "bcrypt" algorithm in security.yaml
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials()
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
-    }
-
-    public function getAdress(): ?Adress
-    {
-        return $this->adress;
-    }
-
-    public function setAdress(?Adress $adress): self
-    {
-        $this->adress = $adress;
 
         return $this;
     }

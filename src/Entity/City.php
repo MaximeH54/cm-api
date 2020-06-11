@@ -25,17 +25,18 @@ class City
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Zip", inversedBy="cities")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $zip;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Adress", mappedBy="city")
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="city")
      */
-    private $adresses;
+    private $users;
 
     public function __construct()
     {
-        $this->adresses = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -68,30 +69,30 @@ class City
     }
 
     /**
-     * @return Collection|Adress[]
+     * @return Collection|User[]
      */
-    public function getAdresses(): Collection
+    public function getUsers(): Collection
     {
-        return $this->adresses;
+        return $this->users;
     }
 
-    public function addAdress(Adress $adress): self
+    public function addUser(User $user): self
     {
-        if (!$this->adresses->contains($adress)) {
-            $this->adresses[] = $adress;
-            $adress->setCity($this);
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setCity($this);
         }
 
         return $this;
     }
 
-    public function removeAdress(Adress $adress): self
+    public function removeUser(User $user): self
     {
-        if ($this->adresses->contains($adress)) {
-            $this->adresses->removeElement($adress);
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
             // set the owning side to null (unless already changed)
-            if ($adress->getCity() === $this) {
-                $adress->setCity(null);
+            if ($user->getCity() === $this) {
+                $user->setCity(null);
             }
         }
 
