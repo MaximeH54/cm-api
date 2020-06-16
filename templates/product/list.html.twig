@@ -1,5 +1,22 @@
 {# templates/product/new.html.twig #}
-<h1>Adding a new product</h1>
+{% extends 'base.html.twig' %}
 
+{% block title %}Nouveau document{% endblock %}
 
-    <button type="submit">Envoyer</button>
+{% block body %}
+		<h1>Ajouter un nouveau document</h1>
+
+		<div class="centerer">
+    <button type="button" class="btn btn-outline-primary btn-lg">Envoyer</button>
+
+		<style>
+			body {
+				font: normal 14px/100% "Andale Mono", AndaleMono, monospace;
+				color: #fff;
+				padding: 50px;				
+				margin: 0 auto;
+				background-color: #374954;
+			}
+		</style>
+
+{% endblock %}
