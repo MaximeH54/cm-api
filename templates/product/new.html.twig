@@ -1,4 +1,26 @@
 {# templates/product/new.html.twig #}
-<h1>Adding a new product</h1>
+{% extends 'base.html.twig' %}
 
-    <button type="submit">Envoyer</button>
+{% block body %}
+
+	<div class="mt-3 text-center row">
+
+		<div class="col-md-8 offset-2">
+
+			<h1 class="mb-3">Adding a new product</h1>
+
+			{% if error is defined %}
+				{{ error }}
+			{% endif %}
+
+			{{ form_start(form) }}
+
+			    {{ form_row(form.upload) }}</br>
+
+					<button type="button" class="btn btn-lg btn-dark">Envoyer</button>
+
+			{{ form_end(form) }}
+		</div>
+	</div>
+
+{% endblock %}

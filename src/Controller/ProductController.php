@@ -41,6 +41,10 @@ class ProductController extends AbstractController
                         $newFilename
                     );
                 } catch (FileException $e) {
+									return $this->render('product/new.html.twig', [
+					           'form' => $form->createView(),
+										 'error' => $e->getMessage(),
+					        ]);
                     // ... handle exception if something happens during file upload
                 }
 

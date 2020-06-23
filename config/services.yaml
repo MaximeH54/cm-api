@@ -19,11 +19,6 @@ services:
         resource: '../src/*'
         exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
 
-    # Disponible seulement pour ce service
-    App\Services\MailLogger:
-        arguments:
-            $adminEmail: 'admin_cmapp@gmail.com'
-
     App\Service\FileUploader:
         arguments:
             $targetDirectory: '%brochures_directory%'

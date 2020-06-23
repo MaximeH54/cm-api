@@ -15,17 +15,17 @@ class ProductType extends AbstractType
         $builder
             // ...
             ->add('upload', FileType::class, [
-                'label' => 'Téléchargez un fchier de type PDF',
+                'label' => 'Téléchargez un fichier de type PDF',
 
-                // unmapped means that this field is not associated to any entity property
+                // unmapped signifie que ce champ n'est associé à aucune propriété d'entité
                 'mapped' => false,
 
-                // make it optional so you don't have to re-upload the PDF file
-                // every time you edit the Product details
+                // rendre facultatif pour ne pas avoir à télécharger à nouveau le fichier PDF
+                 // chaque fois que je modifie les détails du produit
                 'required' => false,
 
-                // unmapped fields can't define their validation using annotations
-                // in the associated entity, so you can use the PHP constraint classes
+                // les champs non mappés ne peuvent pas définir leur validation à l'aide d'annotations
+                 // dans l'entité associée, vous pouvez donc utiliser les classes de contraintes PHP
                 'constraints' => [
                     new File([
                         'maxSize' => '2m',
