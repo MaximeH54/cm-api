@@ -22,7 +22,7 @@ class ProductType extends AbstractType
 
                 // rendre facultatif pour ne pas avoir à télécharger à nouveau le fichier PDF
                  // chaque fois que je modifie les détails du produit
-                'required' => false,
+                'required' => true,
 
                 // les champs non mappés ne peuvent pas définir leur validation à l'aide d'annotations
                  // dans l'entité associée, vous pouvez donc utiliser les classes de contraintes PHP
