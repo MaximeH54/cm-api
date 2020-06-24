@@ -23,7 +23,7 @@ class GoogleAuthenticator extends AbstractGuardAuthenticator
 		}
 		/**
 		 * A chaque fois qu'on appelle la route 'google_login' avec la méthode POST
-		 * on essai de s'authentifie avec Google.
+		 * on essai de s'authentifier avec Google.
 		 * Si renvoie faux alors le reste du code de ce fichier ne sera pas pris en compte
 		 */
     public function supports(Request $request)
