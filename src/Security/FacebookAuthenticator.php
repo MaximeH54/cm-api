@@ -17,10 +17,6 @@ use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
-
-
-
-
 class FacebookAuthenticator extends SocialAuthenticator
 {
     /**
@@ -56,9 +52,8 @@ class FacebookAuthenticator extends SocialAuthenticator
      */
     public function supports(Request $request)
     {
-
         // continue ONLY if the current ROUTE matches the check ROUTE
-        return $request->attributes->get('_route') === 'facebook_login';
+        return $request->attributes->get('_route') === 'facebook_login' && $request->isMethod('POST');
     }
 
     /**
@@ -67,10 +62,6 @@ class FacebookAuthenticator extends SocialAuthenticator
      */
     public function getCredentials(Request $request)
     {
-        // this method is only called if supports() returns true
-
-        $data = json_decode($request->getContent(), true);
-				//isset = empty
         if (!isset($data['access_token']) || !$data['access_token']) {
             throw new NotAcceptableHttpException("The param id_token is required");
         }
