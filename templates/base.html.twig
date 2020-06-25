@@ -4,18 +4,38 @@
     <meta charset="UTF-8">
     <meta name = "google-signin-client_id" content = "798194073310-46u2j7i62dopv0l5jffmb7nubn0stmeu.apps.googleusercontent.com">
     <title>{% block title %}{% endblock %}</title>
+		{{ encore_entry_link_tags('app') }}
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		<link rel="stylesheet" href="/css/app.css">
+		<style>
+			@import url(https://fonts.googleapis.com/css?family=Montserrat:700);
+			body {
+				 background: -webkit-linear-gradient(90deg, #16222A 10%, #3A6073 90%); /* Chrome 10+, Saf5.1+ */
+				 background:    -moz-linear-gradient(90deg, #16222A 10%, #3A6073 90%); /* FF3.6+ */
+				 background:     -ms-linear-gradient(90deg, #16222A 10%, #3A6073 90%); /* IE10 */
+				 background:      -o-linear-gradient(90deg, #16222A 10%, #3A6073 90%); /* Opera 11.10+ */
+				 background:         linear-gradient(90deg, #16222A 10%, #3A6073 90%); /* W3C */
+			}
+			h1 {
+				font-family:'Montserrat', sans-serif;
+				font-weight:300;
+				font-size:3.4em;
+				color:#ECF0F1;
+			}
+
+		</style>
+
   	{% block stylesheets %}
-			{{ encore_entry_link_tags('app') }}
-			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-			<link rel="stylesheet" href="/css/app.css">
 		{% endblock %}
   </head>
   <body>
+		{% block nav %}{% endblock %}
 		<div class="container">
-    	{% block body %}{% endblock %}
+    	{% block body %}
+
+		  {% endblock %}
 		</div>
     {% block javascripts %}
-      <script src="https://apis.google.com/js/platform.js" async defer></script>
       {{ encore_entry_script_tags('app') }}
     {% endblock %}
   </body>

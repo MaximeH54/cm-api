@@ -1,14 +1,24 @@
 {# templates/product/new.html.twig #}
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {% block body %}
 <title>{% block title %}Télécharger et envoyer{% endblock %}</title>
+
+{% block stylesheets %}
+
+	<style>
+		h1 {
+			margin-top: 3.7em;
+		}
+	</style>
+
+{% endblock %}
 
 	<div class="mt-3 text-center row">
 
 		<div class="col-md-8 offset-2">
 
-			<h1 class="mb-3">Ajouter un nouveau document</h1>
+			<h1 class="mb-3">Cliquez et selectionnez votre document</h1>
 
 			{% if error is defined %}
 				{{ error }}
@@ -18,7 +28,7 @@
 
 			    {{ form_row(form.upload) }}</br>
 
-					<button type="submit" class="btn btn-lg btn-dark">Envoyer</button>
+					<button type="submit" class="btn btn-lg btn-outline-light">Envoyer</button>
 
 			{{ form_end(form) }}
 		</div>

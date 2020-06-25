@@ -9,6 +9,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+					<div class="login-box">
             <div class="card card-signin my-5">
                 <div class="card-body">
                     <h5 class="card-title text-center">Connexion</h5>
@@ -25,20 +26,18 @@
 													<input type="checkbox" class="custom-control-input" id="customCheck1">
 													<label class="custom-control-label" for="customCheck1">Se souvenir du mot de passe ?</label>
 												</div>
-                        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">S'inscrire</button>
+                        <button class="btn btn-lg btn-outline-primary btn-block text-uppercase" type="submit">S'inscrire</button>
                     </form>
 										<hr class="my-4">
-										<button class="btn btn-lg btn-google btn-block text-uppercase" type="button" id="btnGoogle">
-											<i class="fab fa-google mr-2"></i>
-											S'inscrire avec Google
+										<button class="social-button" type="button" id="btnGoogle">
+												<span>S'inscrire avec GOOGLE</span>
 										</button>
 										<div class="login-ou">
 											<hr class="hr-ou">
 											<span class="span-ou">ou</span>
 										</div>
-										<button class="btn btn-lg btn-facebook btn-block text-uppercase" type="button">
-											<i class="fab fa-facebook-f mr-2"></i>
-											S'inscrire avec Facebook
+										<button class="social-button" id="btnFacebook" type="button">
+											  <span>S'inscrire avec FACEBOOK</span>
 										</button>
 								  </div>
               	</div>
@@ -53,12 +52,8 @@
   --input-padding-y: .75rem
 }
 
-body {
-	 background: -webkit-linear-gradient(90deg, #16222A 10%, #3A6073 90%); /* Chrome 10+, Saf5.1+ */
-   background:    -moz-linear-gradient(90deg, #16222A 10%, #3A6073 90%); /* FF3.6+ */
-   background:     -ms-linear-gradient(90deg, #16222A 10%, #3A6073 90%); /* IE10 */
-   background:      -o-linear-gradient(90deg, #16222A 10%, #3A6073 90%); /* Opera 11.10+ */
-   background:         linear-gradient(90deg, #16222A 10%, #3A6073 90%); /* W3C */
+.login-box:hover {
+	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 
 .card-signin {
@@ -152,16 +147,111 @@ body {
   box-shadow: 10px 0px 0px 0px #ffffff !important
 }
 
-.btn-google {
-  color: white;
-  background-color: #ea4335
+.social-button {
+	  background-position: 25px 0px;
+    box-sizing: border-box;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    display: inline-block;
+    height: 50px;
+	  line-height: 50px;
+    text-align: left;
+    text-decoration: none;
+    text-transform: uppercase;
+    vertical-align: middle;
+    width: 100%;
+	  border-radius: 3px;
+    margin: 10px auto;
+    outline: rgb(255, 255, 255) none 0px;
+    padding-left: 20%;
+    transition: all 0.2s cubic-bezier(0.72, 0.01, 0.56, 1) 0s;
+	  -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
 }
 
-.btn-facebook {
-  color: white;
-  background-color: #3b5998
+#btnFacebook {
+    background: rgb(255, 255, 255) url('https://raw.githubusercontent.com/eswarasai/social-login/master/img/facebook.svg?sanitize=true') no-repeat scroll 5px 0px / 30px 50px padding-box border-box;
+    border: 1px solid rgb(60, 90, 154);
+}
+
+#btnFacebook:hover {
+	  border-color: rgb(60, 90, 154);
+	  background: rgb(60, 90, 154) url('https://raw.githubusercontent.com/eswarasai/social-login/master/img/facebook-white.svg?sanitize=true') no-repeat scroll 5px 0px / 30px 50px padding-box border-box;
+	  -webkit-transition: all .8s ease-out;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease-out;
+}
+
+#btnFacebook span {
+	  box-sizing: border-box;
+    color: rgb(60, 90, 154);
+    cursor: pointer;
+    text-align: center;
+    text-transform: uppercase;
+    border: 0px none rgb(255, 255, 255);
+    outline: rgb(255, 255, 255) none 0px;
+	  -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
+
+#btnFacebook:hover span {
+	  color: #FFF;
+	  -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
+
+#btnGoogle {
+    background: rgb(255, 255, 255) url('https://raw.githubusercontent.com/eswarasai/social-login/master/img/google-plus.png') no-repeat scroll 5px 0px / 50px 50px padding-box border-box;
+    border: 1px solid rgb(220, 74, 61);
+}
+
+#btnGoogle:hover {
+	  border-color: rgb(220, 74, 61);
+	  background: rgb(220, 74, 61) url('https://raw.githubusercontent.com/eswarasai/social-login/master/img/google-plus-white.png') no-repeat scroll 5px 0px / 50px 50px padding-box border-box;
+	  -webkit-transition: all .8s ease-out;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease-out;
+}
+
+#btnGoogle span {
+	  box-sizing: border-box;
+    color: rgb(220, 74, 61);
+    cursor: pointer;
+    text-align: center;
+    text-transform: uppercase;
+    border: 0px none rgb(220, 74, 61);
+    outline: rgb(255, 255, 255) none 0px;
+	  -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
+
+#btnGoogle:hover span {
+	  color: #FFF;
+	  -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
 }
 </style>
+
+{% endblock %}
 
 {% block javascripts %}
   <script src="https://apis.google.com/js/api:client.js"></script>
@@ -179,8 +269,7 @@ body {
 
 				auth2.attachClickHandler(element, {}, function (googleUser) {
 
-					const id_token = googleUser.getAuthResponse().id_token;
-					console.log(id_token)
+					const id_token = googleUser.getAuthResponse().id_token; // id_token = nom du token de google dans GoogleAuthenticator.php
 
 					const xhr = new XMLHttpRequest();
 					xhr.open('POST', 'http://localhost:8000/login/google');
@@ -188,12 +277,55 @@ body {
 					xhr.onload = function() {
 						window.location.href = "http://localhost:8000/product/list";
 					};
-					console.log(window.location.replace)
 					xhr.send('id_token=' + id_token);
 				})
 			}
 		});
-	</script>
-{% endblock %}
 
+	//configuration du SDK FACEBOOK pour JavaScript
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '510689286535112',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v7.0'
+    });
+
+    FB.AppEvents.logPageView();
+
+		const btnFacebook = document.getElementById('btnFacebook');
+		console.log(btnFacebook)
+
+		btnFacebook.onclick = function () {
+			FB.login(function(response){
+				//stock le token dans une variable
+				const accessToken = response.authResponse.accessToken
+
+				const xhr = new XMLHttpRequest();
+				xhr.open('POST', 'http://localhost:8000/login/facebook');
+				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				xhr.onload = function() {
+					window.location.href = "http://localhost:8000/product/list";
+				};
+				xhr.send('access_token=' + access_token);  //access_token = nom du token de Facebook dans FacebookAuthenticator.php
+				console.log(accessToken)
+
+			});
+		}
+
+  };
+
+  (function(d, s, id){
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) {return;}
+		js = d.createElement(s); js.id = id;
+		js.src = "https://connect.facebook.net/en_US/sdk.js";
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+
+
+
+
+
+</script>
 {% endblock %}
