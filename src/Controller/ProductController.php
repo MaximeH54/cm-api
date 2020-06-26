@@ -29,11 +29,20 @@ class ProductController extends AbstractController
             // this condition is needed because the 'brochure' field is not required
             // so the PDF file must be processed only when a file is uploaded
             if ($file) {
+							  //$file->getMimeType();
                 $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+								$user = $this->getUser();
 
+								// updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $product->setFilename($newFilename);
+								$product->setUser($user);
+								$product->setDate(new \DateTime());
+								$product->setType($file->getMimeType());
+								
                 // Move the file to the directory where brochures are stored
                 try {
                     $file->move(
@@ -48,9 +57,6 @@ class ProductController extends AbstractController
                     // ... handle exception if something happens during file upload
                 }
 
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
-                $product->setFilename($newFilename);
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($product);
                 $entityManager->flush();
@@ -73,7 +79,7 @@ class ProductController extends AbstractController
     {
 			$products = $this->getDoctrine()
 				->getRepository(Product::class)
-				->findAll();
+				->findAll(); //findAll renvoie un array.
       // recup les fichiers uploaded dans la BDD
      //afficher vues Twig
 		 return $this->render('product/list.html.twig', [

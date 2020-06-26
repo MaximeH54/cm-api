@@ -4,13 +4,26 @@
 {% block title %}Gallerie{% endblock %}
 {% block stylesheets %}
 
- <style>
-
-
- </style>
 {% endblock %}
 {% block body %}
-		<h1 class="mt-5">Gallerie</h1>
-
-
+		<h1 class="mt-5 mb-5">Gallerie</h1>
+		<table class="table">
+ 			<thead>
+	 			<tr>
+					<th scope="col">Nom</th>
+					<th scope="col">Date</th>
+					<th scope="col">Type</th>
+	 			</tr>
+ 			</thead>
+ 			<tbody>
+				{% for product in products %}
+					<tr>
+						<td>{{ product.filename }}</td>
+						<td>{{ product.date.format('d/m/Y h:i') }}</td>
+						<td><i class="fa fa-file-pdf-o"></i></td>
+					</tr>
+				{% endfor %}
+	 		</tbody>
+		</table>
+	 <embed src="/uploads/ECF-5ef1c1c0bcdc0.pdf" width="500" height="400" type='application/pdf'>
 {% endblock %}

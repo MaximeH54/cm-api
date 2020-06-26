@@ -62,12 +62,8 @@ class FacebookAuthenticator extends SocialAuthenticator
      */
     public function getCredentials(Request $request)
     {
-        if (!isset($data['access_token']) || !$data['access_token']) {
-            throw new NotAcceptableHttpException("The param id_token is required");
-        }
-
         return [
-            'access_token' => $data['access_token'],
+            'access_token' => $request->request->get('access_token'),
         ];
     }
 
@@ -78,6 +74,13 @@ class FacebookAuthenticator extends SocialAuthenticator
      */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
+				$accessToken = $credentials['access_token'];
+
+				// Si il n'y a pas le param access_token dans le POST alors on quitte la méthode
+				if (null === $accessToken) {
+						return;
+				}
+
 				//HttpClient = permet de faire des requêtes HTTP
         $client = HttpClient::create();
 
