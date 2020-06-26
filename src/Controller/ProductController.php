@@ -42,7 +42,7 @@ class ProductController extends AbstractController
 								$product->setUser($user);
 								$product->setDate(new \DateTime());
 								$product->setType($file->getMimeType());
-								
+
                 // Move the file to the directory where brochures are stored
                 try {
                     $file->move(

@@ -18,12 +18,17 @@
  			<tbody>
 				{% for product in products %}
 					<tr>
-						<td>{{ product.filename }}</td>
+						<td>
+							<a
+								target="_blank"
+								href="{{ upload_directory ~ product.filename }}">
+								{{ product.filename }}
+							</a>
+						</td>
 						<td>{{ product.date.format('d/m/Y h:i') }}</td>
-						<td><i class="fa fa-file-pdf-o"></i></td>
+						<td><i class="fa {{ product.type|iconFile }}"></i></td>
 					</tr>
 				{% endfor %}
 	 		</tbody>
 		</table>
-	 <embed src="/uploads/ECF-5ef1c1c0bcdc0.pdf" width="500" height="400" type='application/pdf'>
 {% endblock %}

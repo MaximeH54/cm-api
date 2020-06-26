@@ -1,0 +1,78 @@
+package alaji;
+
+import javax.script.*;
+import javax.swing.*;
+
+import javax.*;
+import java.awt.*;
+
+public class AlajiCalculatrice extends JFrame {
+	
+	private JPanel panel = new JPanel();
+	private JLabel screen = new JLabel();
+	private String[] tabString = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ".", "=", "C", "+", "-", "*", "/"};
+	private Dimension dim = new Dimension(50, 40);
+	private Dimension dim2 = new Dimension(50, 31);
+	
+	AlajiCalculatrice() {
+		
+		this.setSize(240, 260); 
+		this.setTitle("Calculette");
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLocationRelativeTo(null);
+	    this.setResizable(false);
+	    
+	    screen = new JLabel("0");
+	    screen.setFont(new Font("Arial", Font.BOLD, 13));
+	    screen.setHorizontalAlignment(JLabel.RIGHT);
+	    screen.setPreferredSize(new Dimension(220, 20));
+	    JPanel operators = new JPanel();      
+	    operators.setPreferredSize(new Dimension(55, 225));
+	    JPanel numbers = new JPanel();
+	    numbers.setPreferredSize(new Dimension(165, 225));
+	    JPanel panScreen = new JPanel();
+	    panScreen.setPreferredSize(new Dimension(220, 30));
+	    
+	    for(int i = 0; i < tabString.length; i++) {
+	    	String symbol = tabString[i];
+	    	JButton button = new JButton(symbol);
+	    	button.setPreferredSize(dim);
+	        
+	        if (symbol == "=") {
+	        	numbers.add(button);
+	        } else if (symbol == "C") {
+	        	button.setForeground(Color.red);
+	        	button.setPreferredSize(dim2);
+	        	operators.add(button);
+	        } else if (symbol == "+") {
+	        	button.setPreferredSize(dim2);
+	        	operators.add(button);
+	        } else if (symbol == "-") {
+	        	button.setPreferredSize(dim2);
+	        	operators.add(button);
+	        } else if (symbol == "*") {
+	        	button.setPreferredSize(dim2);
+	        	operators.add(button);
+	        } else if (symbol == "/") {
+	        	button.setPreferredSize(dim2);
+	        	operators.add(button);
+	        } else {
+	        	numbers.add(button);
+	        }
+	    }
+	    
+	    panScreen.add(screen);
+	    panScreen.setBorder(BorderFactory.createLineBorder(Color.black));
+	    panel.add(panScreen, BorderLayout.NORTH);
+	    panel.add(numbers, BorderLayout.CENTER);
+	    panel.add(operators, BorderLayout.EAST);
+	    this.setContentPane(panel);
+	    this.setVisible(true);
+	}
+
+	public static void main(String[] args) {
+		new AlajiCalculatrice();
+
+	}
+
+}

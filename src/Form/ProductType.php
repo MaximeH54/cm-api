@@ -28,13 +28,19 @@ class ProductType extends AbstractType
                  // dans l'entité associée, vous pouvez donc utiliser les classes de contraintes PHP
                 'constraints' => [
                     new File([
-                        'maxSize' => '2m',
+                        'maxSize' => '5m',
                         'mimeTypes' => [
+														'application/msword',
                             'application/pdf',
+														'application/vnd.ms-excel',
+														'application/vnd.ms-powerpoint',
+														'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+														'image/gif',
                             'image/jpeg',
                             'image/png',
+														'text/plain',
                         ],
-                        'mimeTypesMessage' => 'Veuillez télécharger un document PDF valide.',
+                        'mimeTypesMessage' => 'Veuillez télécharger un document valide.',
                     ])
                 ],
             ])
