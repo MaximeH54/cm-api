@@ -63,10 +63,10 @@
 }
 
 .card-signin .card-title {
-  font: 0.85rem 'Lato', sans-serif;
+  font: 0.85rem "Montserrat", serif;
 	text-transform: uppercase;
 	letter-spacing: 0.28rem;
-	color: #222;
+	color: #333333;
     margin-bottom: 1.7rem;
     font-weight: 300;
     font-size: 1.5rem
@@ -308,11 +308,8 @@
 					window.location.href = "http://localhost:8000/product/new";
 				};
 				xhr.send('access_token=' + accessToken);  //access_token = nom du token de Facebook dans FacebookAuthenticator.php
-
-
 			});
 		}
-
   };
 
   (function(d, s, id){

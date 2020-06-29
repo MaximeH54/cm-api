@@ -6,7 +6,6 @@
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
@@ -16,6 +15,17 @@
         <a class="nav-link" href="{{ path('app_product_new') }}">Ajouter</a>
       </li>
     </ul>
+		<div class="dropdown ml-auto">
+			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<i class="fa fa-id-badge"></i>
+			</a>
+
+			<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+				<a class="dropdown-item" href="#">Politique de confidentialité</a>
+				<a class="dropdown-item" href="#">Contrat d'Utilisateur</a>
+				<a class="dropdown-item" href="#">Changer l'Adresse Mail du Compte</a>
+			</div>
+		</div>
   </div>
 </nav>
 {% endblock %}

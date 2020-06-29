@@ -20,7 +20,7 @@ class ProductController extends AbstractController
     {
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
-        $form->handleRequest($request);
+        $form->handleRequest($request); // Appel de la methode handleRequest() afin de traiter les données
 
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UploadedFile $brochureFile */
@@ -71,6 +71,29 @@ class ProductController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+		/**
+		 * @Route("/product/delete/{id}", name="app_product_delete")
+		 */
+		public function delete($id)
+		{
+				$product = $this->getDoctrine()
+					->getRepository(Product::class)
+					->find($id);
+				//appel de la méthode remove() de symfony sur l'$entityManager (outil de symfony pour modifier en base de donnée)
+
+
+
+		    if (!$product) {
+		        throw $this->createNotFoundException(
+		            'No product found for id '.$id
+		        );
+		    }
+				$entityManager = $this->getDoctrine()->getManager();
+				$entityManager->remove($product);
+				$entityManager->flush();
+				
+		    return $this->redirectToRoute('app_product_list');
+		}
 
     /**
      * @Route("/product/list", name="app_product_list")

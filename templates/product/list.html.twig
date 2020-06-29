@@ -1,18 +1,16 @@
 {# templates/product/new.html.twig #}
 {% extends 'layout.html.twig' %}
 
-{% block title %}Gallerie{% endblock %}
-{% block stylesheets %}
-
-{% endblock %}
+{% block title %}Galerie{% endblock %}
 {% block body %}
-		<h1 class="mt-5 mb-5">Gallerie</h1>
+		<h1 class="mt-5 mb-5">Galerie</h1>
 		<table class="table">
- 			<thead>
+ 			<thead class="thead-dark">
 	 			<tr>
 					<th scope="col">Nom</th>
 					<th scope="col">Date</th>
 					<th scope="col">Type</th>
+					<th scope="col"></th>
 	 			</tr>
  			</thead>
  			<tbody>
@@ -21,12 +19,13 @@
 						<td>
 							<a
 								target="_blank"
-								href="{{ upload_directory ~ product.filename }}">
+								href="{{ upload_directory ~ product.filename }}">   {# ~ = concaténation #}
 								{{ product.filename }}
 							</a>
 						</td>
-						<td>{{ product.date.format('d/m/Y h:i') }}</td>
+						<td>{{ product.date.format("d/m/Y H:i:s") }}</td>
 						<td><i class="fa {{ product.type|iconFile }}"></i></td>
+						<td><a href="{{ path("app_product_delete", {id:product.id}) }}"><i class="fa fa-times"></i></a>
 					</tr>
 				{% endfor %}
 	 		</tbody>
