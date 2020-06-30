@@ -59,6 +59,16 @@ class Car
      */
     private $reports;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $kilometers;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $maintenance;
+
     public function __construct()
     {
         $this->reports = new ArrayCollection();
@@ -180,6 +190,30 @@ class Car
                 $report->setCar(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getKilometers(): ?int
+    {
+        return $this->kilometers;
+    }
+
+    public function setKilometers(int $kilometers): self
+    {
+        $this->kilometers = $kilometers;
+
+        return $this;
+    }
+
+    public function getMaintenance(): ?int
+    {
+        return $this->maintenance;
+    }
+
+    public function setMaintenance(int $maintenance): self
+    {
+        $this->maintenance = $maintenance;
 
         return $this;
     }

@@ -1,15 +1,15 @@
-{# templates/product/new.html.twig #}
+{# templates/car/new.html.twig #}
 {% extends 'layout.html.twig' %}
 
-{% block title %}Télécharger et envoyer{% endblock %}
+{% block title %}Ajoutez une nouvelle voiture{% endblock %}
 
 {% block body %}
 
-	<div class="mt-3 text-center row">
+	<div class="mt-3 row">
 
 		<div class="col-md-8 offset-2">
 
-			<h1 class="mb-3">Cliquez et sélectionnez votre document</h1>
+			<h1 class="mb-3">Nouvelle voiture</h1>
 
 			{% if error is defined %}
 				{{ error }}
@@ -17,7 +17,7 @@
 
 			{{ form_start(form) }}
 
-			    {{ form_row(form.upload) }}</br>
+			    {{ form_rest(form) }}</br>
 
 					<button type="submit" class="btn btn-lg btn-outline-dark">Stocker</button>
 

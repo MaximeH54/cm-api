@@ -1,7 +1,6 @@
-@import url(https://fonts.googleapis.com/css?family=Montserrat:700);
-
 h1 {
 	font-family:'Montserrat', sans-serif;
 	font-weight:300;
-	font-size:3.4em;
+	font-size:3.4rem;
+	margin-top: 5rem;
 }

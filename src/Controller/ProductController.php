@@ -91,7 +91,7 @@ class ProductController extends AbstractController
 				$entityManager = $this->getDoctrine()->getManager();
 				$entityManager->remove($product);
 				$entityManager->flush();
-				
+
 		    return $this->redirectToRoute('app_product_list');
 		}
 
