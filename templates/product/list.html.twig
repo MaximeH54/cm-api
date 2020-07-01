@@ -3,7 +3,24 @@
 
 {% block title %}Galerie{% endblock %}
 {% block body %}
-		<h1 class="mt-5 mb-5">Galerie</h1>
+	<style>
+		h1 {
+			margin: 0;
+		}
+		.nb-products {
+			font-size: 2.4rem;
+		}
+		.icon-upload {
+			font-size: 2.4rem;
+		}
+	</style>
+		<div class="d-flex mb-5 mt-5">
+			<h1>Galerie</h1>
+			<div class="ml-auto">
+				<span class="nb-products mr-2">{{ products|length }}</span>
+				<i class="fa fa-upload icon-upload"></i>
+			</div>
+		</div>
 		<table class="table">
  			<thead class="thead-dark">
 	 			<tr>
