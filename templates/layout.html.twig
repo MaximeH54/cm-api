@@ -23,17 +23,31 @@
 				<a class="nav-link" href="{{ path('app_car_new') }}">Ajouter ma voiture</a>
 			</li>
 		</ul>
-		 <!-- Dropdown -->
-		<div class="dropdown ml-auto">
-			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<i class="fa fa-id-badge"></i>
-			</a>
-			<div class="dropdown-menu dropdown-dark-color" aria-labelledby="navbarDropdownMenuLink">
-				<a class="dropdown-item" href="#">Politique de confidentialité</a>
-				<a class="dropdown-item" href="#">Contrat d'Utilisateur</a>
-				<a class="dropdown-item" href="#">Changer l'Adresse Mail du Compte</a>
 			</div>
 		</div>
   </div>
 </nav>
+{% endblock %}
+
+{% block footer %}
+	<div class="footer">
+		<a class="nav-link" id="Politique" href="">Politique de confidentialité</a>
+		<a class="nav-link" id="Contrat" href="">Contrat d'Utilisateur</a>
+	</div>
+
+	<style>
+	a {
+		color: white;
+		font-size: 1.25rem;
+	}
+	.footer {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		padding: 1rem;
+		background-color: #343a40;
+		text-align: center;
+		}
+	</style>
 {% endblock %}
