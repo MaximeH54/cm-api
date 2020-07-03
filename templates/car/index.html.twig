@@ -16,13 +16,14 @@
 	 			</tr>
  			</thead>
  			<tbody>
-				{% for car in cars %}
+				{% for car in cars %}    {# "car" = table car dans la BDD / "cars" = variable utilisé dans le CarController#}
 					<tr>
-						<td>
-						</td>
-						<td></td>
-						<td></i></td>
-						<td><a href=""></a>
+						<td>{{ car.mark }}</td>
+						<td>{{ car.model }}</td>
+						<td>{{ car.year.format("Y") }}</td>
+						<td>{{ car.numberplate }}</td>
+						<td>{{ car.motorization }}</td>
+						<td><a href="{{ path("app_car_delete", {id:car.id}) }}"><i class="fa fa-times"></i></a></td>  {# Cross#}
 					</tr>
 				{% endfor %}
 	 		</tbody>

@@ -5,8 +5,10 @@ namespace App\Security;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -16,10 +18,12 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 class GoogleAuthenticator extends AbstractGuardAuthenticator
 {
 		private $em;
+		private $urlGenerator;
 
-		public function __construct(EntityManagerInterface $em)
+		public function __construct(EntityManagerInterface $em, UrlGeneratorInterface $urlGenerator)
 		{
 				$this->em = $em;
+				$this->urlGenerator = $urlGenerator;
 		}
 		/**
 		 * A chaque fois qu'on appelle la route 'google_login' avec la méthode POST
@@ -121,12 +125,7 @@ class GoogleAuthenticator extends AbstractGuardAuthenticator
 		 */
     public function start(Request $request, AuthenticationException $authException = null)
     {
-				$data = [
-						// you might translate this message
-						'message' => 'Authentication Required'
-				];
-
-				return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
+				return new RedirectResponse($this->urlGenerator->generate('login'));
 		}
 
 		public function supportsRememberMe()

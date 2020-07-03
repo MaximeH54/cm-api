@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Service\FileUploader;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -11,6 +12,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+/**
+ * @IsGranted("ROLE_USER")
+ */
 class ProductController extends AbstractController
 {
     /**
@@ -21,7 +25,7 @@ class ProductController extends AbstractController
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request); // Appel de la methode handleRequest() afin de traiter les données
-
+				// si le formulaire est soumis et valide
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UploadedFile $brochureFile */
             $file = $form->get('upload')->getData();
@@ -81,8 +85,6 @@ class ProductController extends AbstractController
 					->find($id);
 				//appel de la méthode remove() de symfony sur l'$entityManager (outil de symfony pour modifier en base de donnée)
 
-
-
 		    if (!$product) {
 		        throw $this->createNotFoundException(
 		            'No product found for id '.$id
@@ -100,10 +102,10 @@ class ProductController extends AbstractController
      */
     public function list()
     {
-			$products = $this->getDoctrine()
+			$products = $this->getDoctrine()  // recup les fichiers uploaded dans la BDD
 				->getRepository(Product::class)
 				->findAll(); //findAll renvoie un array.
-      // recup les fichiers uploaded dans la BDD
+
      //afficher vues Twig
 		 return $this->render('product/list.html.twig', [
 			 'products' => $products,

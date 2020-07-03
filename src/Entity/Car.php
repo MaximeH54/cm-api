@@ -39,7 +39,7 @@ class Car
     private $model;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $vehicleType;
 
@@ -132,7 +132,7 @@ class Car
         return $this->vehicleType;
     }
 
-    public function setVehicleType(string $vehicleType): self
+    public function setVehicleType(?string $vehicleType): self
     {
         $this->vehicleType = $vehicleType;
 
