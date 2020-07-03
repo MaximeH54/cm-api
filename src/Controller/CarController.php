@@ -24,12 +24,9 @@ class CarController extends AbstractController
     {
 				$cars = $this->getDoctrine()
 					->getRepository(Car::class)
-					->findAll();
-
-				/*foreach ($cars as $car) {
-					echo $car->getMark() .'<br>';
-				}*/
-
+					->findBy([
+						'user'=> $this->getUser()
+					]);
 
         return $this->render('car/index.html.twig', [
           	'cars' => $cars,

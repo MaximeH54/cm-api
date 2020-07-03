@@ -82,7 +82,10 @@ class ProductController extends AbstractController
 		{
 				$product = $this->getDoctrine()
 					->getRepository(Product::class)
-					->find($id);
+					->findOneBy([
+						'id' => $id,
+						'user' => $this->getUser()
+					]); 	// On associe l'id du fichier à l'id de l'utilisateur dans la table product de la bdd
 				//appel de la méthode remove() de symfony sur l'$entityManager (outil de symfony pour modifier en base de donnée)
 
 		    if (!$product) {
@@ -104,7 +107,9 @@ class ProductController extends AbstractController
     {
 			$products = $this->getDoctrine()  // recup les fichiers uploaded dans la BDD
 				->getRepository(Product::class)
-				->findAll(); //findAll renvoie un array.
+				->findBy([
+					'user'=> $this->getUser()
+				]); //findAll renvoie un array.
 
      //afficher vues Twig
 		 return $this->render('product/list.html.twig', [
