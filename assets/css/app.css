@@ -29,6 +29,10 @@ h1 {
 	font-size: 1.25rem;
 }
 
+label {
+    font-size: 4.5rem;;
+}
+
 @media screen and (max-width: 640px) {
 	h1 {
 		font-size: 2rem;
